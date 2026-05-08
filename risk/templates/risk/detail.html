@@ -1,0 +1,51 @@
+{% extends 'risk/base.html' %}
+{% block title %}Prediction Result | Maternal Health Prediction{% endblock %}
+{% block content %}
+<div class="page-title">
+    <div>
+        <p class="eyebrow">Prediction Result</p>
+        <h1>{{ prediction.patient.full_name }}</h1>
+    </div>
+    <a class="btn ghost" href="{% url 'predict' %}">New Prediction</a>
+</div>
+
+<section class="result-card {{ prediction.risk_class }}">
+    <div>
+        <p class="eyebrow">Risk Level</p>
+        <h2>{{ prediction.risk_level }}</h2>
+        <p>Cluster ID: {{ prediction.cluster_id }} | Confidence: {{ prediction.confidence_score }}%</p>
+    </div>
+    <div class="result-badge">{{ prediction.risk_level }}</div>
+</section>
+
+<section class="grid two">
+    <div class="card large">
+        <h2>Patient Details</h2>
+        <dl class="detail-list">
+            <div><dt>Patient Code</dt><dd>{{ prediction.patient.patient_code }}</dd></div>
+            <div><dt>Full Name</dt><dd>{{ prediction.patient.full_name }}</dd></div>
+            <div><dt>Age</dt><dd>{{ prediction.patient.age }}</dd></div>
+            <div><dt>Phone</dt><dd>{{ prediction.patient.phone_number|default:'Not provided' }}</dd></div>
+            <div><dt>Address</dt><dd>{{ prediction.patient.address|default:'Not provided' }}</dd></div>
+            <div><dt>Predicted By</dt><dd>{{ prediction.created_by|default:'System' }}</dd></div>
+            <div><dt>Date</dt><dd>{{ prediction.created_at|date:'M d, Y H:i' }}</dd></div>
+        </dl>
+    </div>
+    <div class="card large">
+        <h2>Clinical Values</h2>
+        <dl class="detail-list">
+            <div><dt>Gestational Age</dt><dd>{{ prediction.gestational_age }} weeks</dd></div>
+            <div><dt>Systolic BP</dt><dd>{{ prediction.systolic_bp }} mmHg</dd></div>
+            <div><dt>Diastolic BP</dt><dd>{{ prediction.diastolic_bp }} mmHg</dd></div>
+            <div><dt>Blood Sugar</dt><dd>{{ prediction.blood_sugar }}</dd></div>
+            <div><dt>Body Temperature</dt><dd>{{ prediction.body_temperature }} °F</dd></div>
+            <div><dt>Heart Rate</dt><dd>{{ prediction.heart_rate }} bpm</dd></div>
+        </dl>
+    </div>
+</section>
+
+<section class="card large">
+    <h2>Recommendation</h2>
+    <p>{{ prediction.recommendation }}</p>
+</section>
+{% endblock %}

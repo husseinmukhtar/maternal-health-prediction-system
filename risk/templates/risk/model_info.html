@@ -1,0 +1,49 @@
+{% extends 'risk/base.html' %}
+{% block title %}Model Information | Maternal Health Prediction{% endblock %}
+{% block content %}
+<div class="page-title">
+    <div>
+        <p class="eyebrow">Machine Learning</p>
+        <h1>Model Information</h1>
+    </div>
+</div>
+
+<section class="grid two">
+    <div class="card large">
+        <h2>Training Summary</h2>
+        <dl class="detail-list">
+            <div><dt>Learning Type</dt><dd>{{ metrics.learning_type|default:'Unsupervised Learning' }}</dd></div>
+            <div><dt>Algorithm</dt><dd>{{ metrics.model_type|default:'K-Means Clustering' }}</dd></div>
+            <div><dt>Number of Clusters</dt><dd>{{ metrics.n_clusters|default:'3' }}</dd></div>
+            <div><dt>Records Used</dt><dd>{{ metrics.records_used|default:'N/A' }}</dd></div>
+            <div><dt>Silhouette Score</dt><dd>{{ metrics.silhouette_score|default:'N/A' }}</dd></div>
+            <div><dt>Davies-Bouldin Index</dt><dd>{{ metrics.davies_bouldin_index|default:'N/A' }}</dd></div>
+            <div><dt>Calinski-Harabasz Score</dt><dd>{{ metrics.calinski_harabasz_score|default:'N/A' }}</dd></div>
+        </dl>
+    </div>
+    <div class="card large">
+        <h2>External Evaluation</h2>
+        <p class="muted">These values compare clusters with the reference RiskLevel column after training. The reference labels are not used by the K-Means algorithm.</p>
+        <dl class="detail-list">
+            <div><dt>Accuracy</dt><dd>{{ metrics.external_accuracy_against_reference_labels|default:'N/A' }}</dd></div>
+            <div><dt>Precision</dt><dd>{{ metrics.external_precision_weighted|default:'N/A' }}</dd></div>
+            <div><dt>Recall</dt><dd>{{ metrics.external_recall_weighted|default:'N/A' }}</dd></div>
+            <div><dt>F1 Score</dt><dd>{{ metrics.external_f1_weighted|default:'N/A' }}</dd></div>
+        </dl>
+    </div>
+</section>
+
+<section class="card large">
+    <h2>Features Used by the Model</h2>
+    <div class="chip-wrap">
+        {% for feature in metrics.feature_columns %}<span class="chip">{{ feature }}</span>{% empty %}<span class="chip">Age</span><span class="chip">SystolicBP</span><span class="chip">DiastolicBP</span><span class="chip">BS</span><span class="chip">BodyTemp</span><span class="chip">HeartRate</span><span class="chip">GestationalAge</span>{% endfor %}
+    </div>
+</section>
+
+<section class="card large">
+    <h2>Defense Explanation</h2>
+    <p>
+        The project uses unsupervised learning because the K-Means model detects hidden groupings from maternal health measurements without depending on labelled outcomes during training. The clusters are later interpreted as low, medium, and high risk groups by comparing the cluster centers and clinical risk tendencies.
+    </p>
+</section>
+{% endblock %}

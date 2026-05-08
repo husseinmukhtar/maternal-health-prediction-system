@@ -1,0 +1,53 @@
+{% extends 'risk/base.html' %}
+{% block title %}Home | Maternal Health Prediction{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="hero-text">
+        <p class="eyebrow">Final Year Computer Science Project</p>
+        <h1>Maternal Health Risk Prediction System</h1>
+        <p>
+            A web-based intelligent system that applies unsupervised machine learning to group maternal health records into low, medium, and high risk categories.
+        </p>
+        <div class="hero-actions">
+            {% if user.is_authenticated %}
+                <a class="btn" href="{% url 'predict' %}">Start Prediction</a>
+                <a class="btn ghost" href="{% url 'dashboard' %}">View Dashboard</a>
+            {% else %}
+                <a class="btn" href="{% url 'login' %}">Login to Continue</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="hero-card">
+        <h3>System Modules</h3>
+        <ul class="feature-list">
+            <li>Patient data capture</li>
+            <li>K-Means clustering model</li>
+            <li>Risk level prediction</li>
+            <li>Prediction history</li>
+            <li>Model performance report</li>
+        </ul>
+    </div>
+</section>
+
+<section class="cards three">
+    <div class="card">
+        <span class="metric">{{ total_predictions }}</span>
+        <p>Total predictions stored</p>
+    </div>
+    <div class="card">
+        <span class="metric">{{ high_risk_count }}</span>
+        <p>High risk cases identified</p>
+    </div>
+    <div class="card">
+        <span class="metric">{{ metrics.silhouette_score|default:'N/A' }}</span>
+        <p>Silhouette score</p>
+    </div>
+</section>
+
+<section class="info-panel">
+    <h2>How the system works</h2>
+    <p>
+        The system collects maternal clinical indicators such as age, blood pressure, blood sugar, body temperature, heart rate, and gestational age. These values are scaled and passed into a K-Means clustering model. The clusters are interpreted as risk groups based on the clinical pattern of the cluster centers.
+    </p>
+</section>
+{% endblock %}

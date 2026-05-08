@@ -1,0 +1,78 @@
+{% extends 'risk/base.html' %}
+{% block title %}Dashboard | Maternal Health Prediction{% endblock %}
+{% block content %}
+<div class="page-title">
+    <div>
+        <p class="eyebrow">Overview</p>
+        <h1>Dashboard</h1>
+    </div>
+    <a class="btn" href="{% url 'predict' %}">New Prediction</a>
+</div>
+
+<section class="cards three">
+    <div class="card">
+        <span class="metric">{{ total_patients }}</span>
+        <p>Total patients</p>
+    </div>
+    <div class="card">
+        <span class="metric">{{ total_predictions }}</span>
+        <p>Total predictions</p>
+    </div>
+    <div class="card">
+        <span class="metric">{{ metrics.external_accuracy_against_reference_labels|default:'N/A' }}</span>
+        <p>Reference-label accuracy</p>
+    </div>
+</section>
+
+<section class="grid two">
+    <div class="card large">
+        <h2>Risk Distribution</h2>
+        <div class="bars">
+            {% for item in summary %}
+            <div class="bar-row">
+                <div class="bar-label"><span>{{ item.risk_level }}</span><strong>{{ item.total }}</strong></div>
+                <div class="bar-track"><div class="bar-fill {{ item.risk_level|lower|cut:' ' }}" style="width: {{ item.percentage }}%"></div></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="card large">
+        <h2>Model Snapshot</h2>
+        <div class="model-grid">
+            <div><strong>{{ metrics.model_type|default:'K-Means Clustering' }}</strong><span>Model</span></div>
+            <div><strong>{{ metrics.n_clusters|default:'3' }}</strong><span>Clusters</span></div>
+            <div><strong>{{ metrics.silhouette_score|default:'N/A' }}</strong><span>Silhouette</span></div>
+            <div><strong>{{ metrics.davies_bouldin_index|default:'N/A' }}</strong><span>DB Index</span></div>
+        </div>
+        <p class="muted small-text">The model is unsupervised. Accuracy is shown only as a comparison against reference labels in the dataset.</p>
+    </div>
+</section>
+
+<section class="card large">
+    <div class="section-head">
+        <h2>Recent Predictions</h2>
+        <a href="{% url 'history' %}">View all</a>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Patient</th><th>Age</th><th>Risk</th><th>Confidence</th><th>Date</th><th></th></tr>
+            </thead>
+            <tbody>
+                {% for pred in recent_predictions %}
+                <tr>
+                    <td>{{ pred.patient.full_name }}</td>
+                    <td>{{ pred.patient.age }}</td>
+                    <td><span class="badge {{ pred.risk_class }}">{{ pred.risk_level }}</span></td>
+                    <td>{{ pred.confidence_score }}%</td>
+                    <td>{{ pred.created_at|date:'M d, Y H:i' }}</td>
+                    <td><a href="{% url 'prediction_detail' pred.pk %}">Open</a></td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="empty">No predictions yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'risk/base.html' %}
+{% block title %}Login | Maternal Health Prediction{% endblock %}
+{% block content %}
+<section class="auth-card">
+    <h1>Login</h1>
+    <p class="muted">Use the demo account after running <code>python manage.py seed_demo</code>: admin / admin12345</p>
+    <form method="post" class="form-card compact">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <label>Username</label>
+        {{ form.username }}
+        <label>Password</label>
+        {{ form.password }}
+        <button class="btn full" type="submit">Login</button>
+    </form>
+</section>
+{% endblock %}

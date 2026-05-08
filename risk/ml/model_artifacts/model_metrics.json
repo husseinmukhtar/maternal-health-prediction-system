@@ -1,0 +1,84 @@
+{
+  "model_type": "K-Means Clustering",
+  "learning_type": "Unsupervised Learning",
+  "feature_columns": [
+    "Age",
+    "SystolicBP",
+    "DiastolicBP",
+    "BS",
+    "BodyTemp",
+    "HeartRate",
+    "GestationalAge"
+  ],
+  "n_clusters": 3,
+  "records_used": 243,
+  "silhouette_score": 0.248,
+  "davies_bouldin_index": 1.4785,
+  "calinski_harabasz_score": 147.3522,
+  "external_accuracy_against_reference_labels": 0.9712,
+  "external_precision_weighted": 0.9712,
+  "external_recall_weighted": 0.9712,
+  "external_f1_weighted": 0.9711,
+  "cluster_to_label": {
+    "0": "Low Risk",
+    "2": "Medium Risk",
+    "1": "High Risk"
+  },
+  "cluster_risk_scores": {
+    "0": 0.0,
+    "1": 2.5841,
+    "2": 0.5611
+  },
+  "cluster_centers": {
+    "0": {
+      "Age": 24.811,
+      "SystolicBP": 112.896,
+      "DiastolicBP": 73.453,
+      "BS": 6.44,
+      "BodyTemp": 98.024,
+      "HeartRate": 79.708,
+      "GestationalAge": 24.509
+    },
+    "1": {
+      "Age": 38.879,
+      "SystolicBP": 159.155,
+      "DiastolicBP": 101.621,
+      "BS": 12.474,
+      "BodyTemp": 100.303,
+      "HeartRate": 103.655,
+      "GestationalAge": 29.845
+    },
+    "2": {
+      "Age": 32.532,
+      "SystolicBP": 132.734,
+      "DiastolicBP": 86.671,
+      "BS": 8.252,
+      "BodyTemp": 98.573,
+      "HeartRate": 87.354,
+      "GestationalAge": 27.139
+    }
+  },
+  "note": "RiskLevel was not used during clustering. It is retained only for academic comparison after clustering.",
+  "confusion_matrix_labels": [
+    "low risk",
+    "mid risk",
+    "high risk"
+  ],
+  "confusion_matrix": [
+    [
+      103,
+      0,
+      0
+    ],
+    [
+      3,
+      76,
+      1
+    ],
+    [
+      0,
+      3,
+      57
+    ]
+  ]
+}
